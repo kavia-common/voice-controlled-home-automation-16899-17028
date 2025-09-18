@@ -1,82 +1,48 @@
-# Lightweight React Template for KAVIA
+# UserInterface_ReactJS
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A lightweight React app that implements the User Interface API endpoints:
+- GET/PUT: /devices/configuration
+- POST: /devices/control
+- GET: /devices/status
 
-## Features
+It provides:
+- Device Configuration page: View and edit device configuration
+- Manual Device Control page: Send commands to devices
+- Device Status page: View current status, with optional auto-refresh
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+## Environment Variables
 
-## Getting Started
+Copy `.env.example` to `.env` and adjust values as needed.
 
-In the project directory, you can run:
+- REACT_APP_API_BASE_URL: Base URL of the backend exposing the User Interface API (e.g., http://localhost:8000)
+- REACT_APP_API_KEY: Optional header value sent as X-API-KEY (if your backend needs it)
+- REACT_APP_STATUS_POLL_INTERVAL: Optional polling interval in ms for auto-refresh on Status page (e.g., 5000). Set empty or 0 to disable.
 
-### `npm start`
+## Development
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `npm start`: Run the app locally at http://localhost:3000
+- `npm test`: Run tests
+- `npm run build`: Build for production
 
-### `npm test`
+## Folder Structure
 
-Launches the test runner in interactive watch mode.
+- src/
+  - api/client.js: API client with validation and error handling
+  - components/UI.js: Minimal UI building blocks
+  - pages/
+    - DeviceConfigurationPage.js
+    - ManualControlPage.js
+    - DeviceStatusPage.js
+  - App.js, App.css: App shell and styles
+  - index.js: Entry point
 
-### `npm run build`
+## Validation & Error Handling
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Client-side validation ensures requests match the OpenAPI schemas.
+- Responses are validated where schemas are defined (e.g., DeviceStatus, GET DeviceConfiguration).
+- Errors are displayed via alert components on each page.
 
-## Customization
+## Notes
 
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- This app intentionally avoids routing dependencies and uses in-app navigation for simplicity.
+- If the API returns additional fields, they are safely ignored.

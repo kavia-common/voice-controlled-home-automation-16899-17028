@@ -1,47 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { Navbar, Button } from "./components/UI";
+import DeviceConfigurationPage from "./pages/DeviceConfigurationPage";
+import ManualControlPage from "./pages/ManualControlPage";
+import DeviceStatusPage from "./pages/DeviceStatusPage";
 
 // PUBLIC_INTERFACE
 function App() {
-  const [theme, setTheme] = useState('light');
+  /**
+   * Root app with simple state-based navigation to keep deps minimal.
+   * Pages:
+   * - config: DeviceConfigurationPage
+   * - control: ManualControlPage
+   * - status: DeviceStatusPage
+   */
+  const [theme, setTheme] = useState("light");
+  const [route, setRoute] = useState("config");
 
-  // Effect to apply theme to document element
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   // PUBLIC_INTERFACE
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    setTheme((t) => (t === "light" ? "dark" : "light"));
+  };
+
+  const renderPage = () => {
+    switch (route) {
+      case "config":
+        return <DeviceConfigurationPage />;
+      case "control":
+        return <ManualControlPage />;
+      case "status":
+        return <DeviceStatusPage />;
+      default:
+        return <DeviceConfigurationPage />;
+    }
   };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar current={route} onNavigate={setRoute} />
+      {renderPage()}
+      <Button
+        className="theme-toggle"
+        onClick={toggleTheme}
+        aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      >
+        {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+      </Button>
     </div>
   );
 }
